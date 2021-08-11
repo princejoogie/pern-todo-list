@@ -1,0 +1,1 @@
+export { PostResolver } from "./post";
