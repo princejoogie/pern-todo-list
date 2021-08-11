@@ -1,57 +1,59 @@
-import { Post } from "../entities/Post";
+import { Todo } from "../entities/";
 import { MyContext } from "../types";
 import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 
 @Resolver()
-export class PostResolver {
-  @Query(() => [Post])
-  async posts(@Ctx() { em }: MyContext): Promise<Post[]> {
-    return await em.find(Post, {});
+export class TodoResolver {
+  @Query(() => [Todo])
+  async todos(@Ctx() { em }: MyContext): Promise<Todo[]> {
+    return await em.find(Todo, {});
   }
 
-  @Query(() => Post, { nullable: true })
-  async post(
+  @Query(() => Todo, { nullable: true })
+  async todo(
     @Arg("id", () => String) id: string,
     @Ctx() { em }: MyContext
-  ): Promise<Post | null> {
-    return await em.findOne(Post, { id });
+  ): Promise<Todo | null> {
+    return await em.findOne(Todo, { id });
   }
 
-  @Mutation(() => Post)
-  async createPost(
+  @Mutation(() => Todo)
+  async createTodo(
     @Arg("title", () => String) title: string,
     @Ctx() { em }: MyContext
-  ): Promise<Post> {
-    const post = await em.create(Post, { title });
+  ): Promise<Todo> {
+    const post = await em.create(Todo, { title, finished: false });
     await em.persistAndFlush(post);
     return post;
   }
 
-  @Mutation(() => Post, { nullable: true })
-  async updatePost(
+  @Mutation(() => Todo, { nullable: true })
+  async updateTodo(
     @Arg("id", () => String) id: string,
     @Arg("title", () => String) title: string,
+    @Arg("finished", () => Boolean) finished: boolean,
     @Ctx() { em }: MyContext
-  ): Promise<Post | null> {
-    const post = await em.findOne(Post, { id });
+  ): Promise<Todo | null> {
+    const post = await em.findOne(Todo, { id });
     if (!post) {
       return null;
     }
 
     if (!!title) {
       post.title = title;
+      post.finished = finished;
       await em.persistAndFlush(post);
     }
     return post;
   }
 
   @Mutation(() => Boolean)
-  async deletePost(
+  async deleteTodo(
     @Arg("id", () => String) id: string,
     @Ctx() { em }: MyContext
   ): Promise<boolean> {
     try {
-      await em.nativeDelete(Post, { id });
+      await em.nativeDelete(Todo, { id });
       return true;
     } catch (_) {
       return false;

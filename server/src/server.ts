@@ -8,7 +8,7 @@ import colors from "colors";
 import dotenv from "dotenv";
 dotenv.config({ path: __prod__ ? ".env" : ".env.development" });
 
-import { PostResolver } from "./resolvers";
+import { TodoResolver } from "./resolvers";
 import mikroConfig from "./mikro-orm.config";
 
 const main = async () => {
@@ -20,7 +20,7 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [PostResolver],
+      resolvers: [TodoResolver],
       validate: false,
     }),
     context: () => ({ em: orm.em }),

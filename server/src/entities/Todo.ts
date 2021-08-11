@@ -3,7 +3,7 @@ import { Field, ObjectType } from "type-graphql";
 
 @ObjectType()
 @Entity()
-export abstract class Post {
+export class Todo {
   @Field(() => String)
   @PrimaryKey({ type: "uuid", defaultRaw: "uuid_generate_v4()" })
   id!: string;
@@ -19,4 +19,8 @@ export abstract class Post {
   @Field(() => String)
   @Property({ type: "text" })
   title!: string;
+
+  @Field(() => Boolean)
+  @Property()
+  finished!: boolean;
 }

@@ -1,1 +1,1 @@
-export { PostResolver } from "./post";
+export { TodoResolver } from "./todo";

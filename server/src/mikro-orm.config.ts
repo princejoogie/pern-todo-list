@@ -3,14 +3,20 @@ import { MikroORM } from "@mikro-orm/core";
 import path from "path";
 
 import { __prod__ } from "./constants";
-import { Post } from "./entities";
+import { Todo } from "./entities";
 
 export default {
   migrations: {
     path: path.join(__dirname, "./migrations"),
     pattern: /^[\w-]+\d+\.[tj]s$/,
+    transactional: true,
+    disableForeignKeys: true,
+    allOrNothing: true,
+    dropTables: true,
+    safe: false,
+    emit: "ts",
   },
-  entities: [Post],
+  entities: [Todo],
   debug: !__prod__,
   metadataProvider: TsMorphMetadataProvider,
   type: "postgresql",
