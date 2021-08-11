@@ -1,6 +1,6 @@
 # PERN Todo List
 
-`WIP`
+🚧 `WORK IN PROGRESS` 🚧
 
 A very straight-forward and simple todo-list with the PERN Stack (Postgres, Express, React, Node).
 
